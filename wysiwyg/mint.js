@@ -38,7 +38,7 @@ async function start() {
 function handleAccountsChanged(accounts) {
     if (accounts.length === 0) {
         console.log("MetaMask is locked or you haven't connected any account. Please connect to MetaMask.");
-        $(".mint button").hide();
+        // $(".mint button").hide();
     } else if (accounts[0] !== currentAccount) {
         currentAccount = accounts[0];
         $(".mint button").show();
@@ -170,10 +170,18 @@ function updateTokensLeft() {
           $(".mint button").hide();
         }
       })
+}
 
+
+function checkMetamask() {
+  if (window.ethereum == null) {
+    alert('Please Conect metamask')
+    window.location.reload();
+  }
 }
 
 function mintToken() {
+  checkMetamask();
     console.log(`Trying to buy one token.`)
     $(".status-message").text(`Minting...`);
     const left = web3js.eth.abi.encodeParameter('uint256', leftCode);
@@ -197,6 +205,7 @@ function mintToken() {
 }
 
 function updateToken() {
+  checkMetamask();
   console.log(`Trying to buy one token.`);
   $(".status-message").text(`Minting...`);
   var tokenId = prompt("Enter the token ID you want to update screen");
